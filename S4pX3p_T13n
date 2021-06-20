@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <math.h>
+#include <iostream>
+using namespace std;
+
+/*InsertionSort*/
+void insertionSort(int arr[], int n)
+{
+    int i, key, j;
+    for (i = 1; i < n; i++)
+    {
+        key = arr[i];
+        j = i - 1;
+
+        
+        while (j >= 0 && arr[j] > key)
+        {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+/*QuickSort*/
+void swap(int& a, int& b)
+{
+    int t = a;
+    a = b;
+    b = t;
+}
+
+
+int partition(int arr[], int low, int high)
+{
+    int pivot = arr[high];    // pivot
+    int left = low;
+    int right = high - 1;
+    while (true) {
+        while (left <= right && arr[left] < pivot) left++;
+        while (right >= left && arr[right] > pivot) right--;
+        if (left >= right) break;
+        swap(arr[left], arr[right]);
+        left++;
+        right--;
+    }
+    swap(arr[left], arr[high]);
+    return left;
+}
+
+/* Hàm thực hiện giải thuật quick sort */
+void quickSort(int arr[], int low, int high)
+{
+    if (low < high)
+    {
+        /* pi là chỉ số nơi phần tử này đã đứng đúng vị trí
+         và là phần tử chia mảng làm 2 mảng con trái & phải */
+        int pi = partition(arr, low, high);
+
+        // Gọi đệ quy sắp xếp 2 mảng con trái và phải
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+void printArray(int arr[], int n)
+{
+    int i;
+    for (i = 0; i < n; i++)
+        cout << arr[i] << " ";
+}
+
+int main()
+{
+    int option;
+    cout << "****************" << endl;
+    cout << "Chon cach sap xep" << endl;
+    cout << "(1) InsertSort" << endl;
+    cout << "(2) QuickSort" << endl;
+    cin >> option;
+    int arr[] = { 54, 8, 1, 20, 5, 84 }; //input 
+    int n = sizeof(arr) / sizeof(arr[0]);
+    switch (option) {
+    case 1:
+        cout << "InsertSort: ";
+        insertionSort(arr, n); 
+        break;
+    case 2:
+        cout << "QuickSort: ";
+        quickSort(arr, 0, n - 1);
+    }          
+    printArray(arr, n);
+    return 0;
+}
